@@ -1,26 +1,49 @@
 package com.desafio.resources;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URI;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.desafio.domain.Imagem;
+import com.desafio.services.ImagemService;
 
 @RestController
 @RequestMapping(value = "/imagens")
 public class ImagemResource {
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public List<Imagem> Listar() {
-		Imagem img = new Imagem(1, "www.imagem.com", "02", 0);
-		
-		List<Imagem> lista = new ArrayList<>();
-		lista.add(img);
-		
-		return lista;
+	@Autowired
+	private ImagemService service;
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Imagem> find(@PathVariable Integer id) {
+		Imagem img = service.find(id);
+		return ResponseEntity.ok().body(img);
 	}
 	
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@RequestBody Imagem img) {
+		img = service.insert(img);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(img.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update (@RequestBody Imagem updatedImg, @PathVariable Integer id){
+		updatedImg.setId(id);
+		updatedImg = service.update(updatedImg);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }

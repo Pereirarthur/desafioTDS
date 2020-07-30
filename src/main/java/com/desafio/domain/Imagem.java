@@ -13,7 +13,7 @@ public class Imagem implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	private String imagePath;
 	private String chaveRemocao;
 	private int numAcessos;
@@ -21,7 +21,7 @@ public class Imagem implements Serializable{
 	public Imagem(){		
 	}
 
-	public Imagem(int id, String imagePath, String chaveRemocao, int numAcessos) {
+	public Imagem(Integer id, String imagePath, String chaveRemocao, int numAcessos) {
 		super();
 		this.id = id;
 		this.imagePath = imagePath;
@@ -29,7 +29,7 @@ public class Imagem implements Serializable{
 		this.numAcessos = numAcessos;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 

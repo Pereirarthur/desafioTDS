@@ -21,7 +21,7 @@ public class ResourceExceptionHandler {
 	
 	@ExceptionHandler (ChaveErradaException.class)
 	public ResponseEntity<StandardError> ChaveErrada(ChaveErradaException e, HttpServletRequest request){
-		StandardError error = new StandardError(403, e.getMessage(), System.currentTimeMillis());
+		StandardError error = new StandardError(401, e.getMessage(), System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
 	

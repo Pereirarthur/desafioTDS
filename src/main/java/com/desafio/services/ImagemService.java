@@ -1,10 +1,12 @@
 package com.desafio.services;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.desafio.domain.Imagem;
 import com.desafio.repositories.ImagemRepository;
@@ -32,18 +34,16 @@ public class ImagemService {
 		update(img);
 	}
 	
-	public Imagem insert(Imagem img) {
+	public Imagem insert(MultipartFile file) throws IOException{
+		Imagem img = new Imagem(null, null, 0);
 		img.setChaveRemocao(generate_chaveRemocao());
 		Imagem savedImg = repository.save(img);
-		System.out.println("teste");
-		System.out.println(savedImg.getId());
-		copyImage(savedImg);
+		copyImage(file, img);
 		return savedImg;
 	}
 	
-	private void copyImage(Imagem img) {
-		System.out.println(img.getImagePath());
-		gerenciador.uploadFile(img.getImagePath(), img.getId().toString());
+	private void copyImage(MultipartFile file, Imagem img) throws IOException{
+		gerenciador.uploadFile(file, img.getId().toString());
 	}
 	
 	private String generate_chaveRemocao() {

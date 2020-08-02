@@ -14,17 +14,15 @@ public class Imagem implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String imagePath;
 	private String chaveRemocao;
 	private int numAcessos;
 	
 	public Imagem(){		
 	}
 
-	public Imagem(Integer id, String imagePath, String chaveRemocao, int numAcessos) {
+	public Imagem(Integer id, String chaveRemocao, int numAcessos) {
 		super();
 		this.id = id;
-		this.imagePath = imagePath;
 		this.chaveRemocao = chaveRemocao;
 		this.numAcessos = numAcessos;
 	}
@@ -36,15 +34,7 @@ public class Imagem implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getImagePath() {
-		return imagePath;
-	}
-
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
-
+	
 	public String getChaveRemocao() {
 		return chaveRemocao;
 	}
